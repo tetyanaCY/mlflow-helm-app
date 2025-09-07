@@ -1,4 +1,4 @@
-﻿apiVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mlflow
@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOURUSER/mlflow-helm-app.git
+    repoURL: https://github.com/tetyanaCY/mlflow-helm-app.git
     targetRevision: HEAD
     path: helm/mlflow
     helm:

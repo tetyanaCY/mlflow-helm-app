@@ -1,4 +1,4 @@
-﻿apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-mlflow
@@ -23,7 +23,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["mlflow"]
           args:
-            - server
+            - ui
             - --host
             - "{{ .Values.mlflow.host }}"
             - --port
