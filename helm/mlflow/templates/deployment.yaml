@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-mlflow
@@ -32,6 +32,9 @@ spec:
             - "{{ .Values.mlflow.backendStoreUri }}"
             - --default-artifact-root
             - "{{ .Values.mlflow.defaultArtifactRoot }}"
+          env:
+            - name: GUNICORN_CMD_ARGS
+              value: "--workers 1 --timeout 120"
           ports:
             - containerPort: {{ .Values.mlflow.port }}
           resources:
