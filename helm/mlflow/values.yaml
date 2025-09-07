@@ -1,0 +1,28 @@
+﻿image:
+  repository: ghcr.io/mlflow/mlflow
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 5000
+  name: mlflow
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+
+mlflow:
+  host: "0.0.0.0"
+  port: 5000
+  backendStoreUri: "sqlite:///mlflow.db"
+  defaultArtifactRoot: "/mlruns"
+
+persistence:
+  enabled: false

@@ -1,0 +1,44 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-mlflow
+  labels:
+    app.kubernetes.io/name: mlflow
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mlflow
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mlflow
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: mlflow
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["mlflow"]
+          args:
+            - server
+            - --host
+            - "{{ .Values.mlflow.host }}"
+            - --port
+            - "{{ .Values.mlflow.port }}"
+            - --backend-store-uri
+            - "{{ .Values.mlflow.backendStoreUri }}"
+            - --default-artifact-root
+            - "{{ .Values.mlflow.defaultArtifactRoot }}"
+          ports:
+            - containerPort: {{ .Values.mlflow.port }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - mountPath: /mlruns
+              name: data
+      volumes:
+        - name: data
+          emptyDir: {}
